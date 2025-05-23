@@ -5,6 +5,7 @@ import { appRoutes } from './routes'
 import Layout from './components/Layout'
 import PrivateRoute from './components/PrivateRoute'
 import Index from './pages/Index'
+import SignUp from './pages/SignUp'
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Index/>}/>
         <Route path="/login" element={<Login/>}/>
+        <Route path="/signup" element={<SignUp/>}/>
         <Route element={
           <PrivateRoute>
             <Layout />

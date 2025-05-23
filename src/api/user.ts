@@ -6,10 +6,10 @@ export interface Login {
 }
 
 export interface User {
-    id: string;
-    username: string;
+    userName: string;
     email: string;
     password: string;
+    fullName: string;
 }
 
 export const login = async (body: Login) => {
@@ -26,6 +26,7 @@ export const login = async (body: Login) => {
     if (response.status === 200) {
         const token = response.data.access_token;
         localStorage.setItem("token", token);
+        console.log("Token:", token);
         return token;
     }
     return new Error("Login failed");
@@ -37,19 +38,25 @@ export const register = async (body: User) => {
     let isUserNew = false;
     const options = {
         method: "POST",
-        url: "http://localhost:8080/api/register",
+        url: "http://localhost:5050/user",
         headers: {
             "Content-Type": "application/json"
         },
         data: body
     }
-
-    const response = await axios.request(options);
-    if (response.status === 201) {
-        isUserNew = true;
-        return isUserNew;
-    }
+    try {
+        const response = await axios.request(options);
+        if (response.status === 201) {
+            isUserNew = true;
+            return isUserNew;
+        }
     return isUserNew;
+    } catch (error) {
+        console.error("Error:", error);
+        return null;
+        
+    }
+
 }
 
 
@@ -59,17 +66,10 @@ export const logout = () => {
 }
 
 export const getUser = async (username : string) => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-        return "Usuário não autenticado";
-    }
-
     const options = {
         method: "GET",
         url: `http://localhost:5050/user/username/${username}`,
-        headers: {
-            "Authorization": `Bearer ${token}`
-        }
+
     }
 
     try {
