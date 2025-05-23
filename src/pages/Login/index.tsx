@@ -5,7 +5,7 @@ import { Eye, EyeOff } from 'lucide-react';
 
 export default function Login() {
     const navigate = useNavigate();
-    const [ username, setUsername ] = useState("");
+    const [ userName, setUsername ] = useState("");
     const [ password, setPassword ] = useState("");
     const [ error, setError ] = useState("")
     const [ showPassword, setShowPassword ] = useState(false);
@@ -13,7 +13,7 @@ export default function Login() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await login({ username, password});
+            await login({ userName, password});
             navigate("/home");
         } catch (error : any) {
             setError(error.message || "Erro ao fazer login");
@@ -33,7 +33,7 @@ export default function Login() {
                     <span className="text-gray-700">Usuário</span>
                     <input 
                         type="text"
-                        value={username}
+                        value={userName}
                         onChange={(e) => setUsername(e.target.value)}
                         className="mt-1 block w-full px-4 py-2 border rounded-md shadow-sm"
                         required
